@@ -34,14 +34,17 @@ def linkedin_jobs(url):
     tags = soup.html.body.findAll("div", class_="result-card__contents job-result-card__contents")
     # print(len(tags))
     for tag in tags:
-        listing = Listing()
-        listing.title = tag.h3.text[:35] + "..." if len(tag.h3.text) > 40 else tag.h3.text
-        listing.company = tag.h4.a.text
-        listing.location = tag.div.span.text
-        listing.date = tag.time.text
-        listing.link = tag.h4.a.get("href")
-        listing.logo = "https://cdn4.iconfinder.com/data/icons/flat-icon-social-media/256/Linkedin.png"
-        jobs.append(listing.to_dict())
+        if tag.h4.a is None:
+            pass
+        else:
+            listing = Listing()
+            listing.title = tag.h3.text[:35] + "..." if len(tag.h3.text) > 40 else tag.h3.text
+            listing.company = tag.h4.a.text
+            listing.location = tag.div.span.text
+            listing.date = tag.time.text
+            listing.link = tag.h4.a.get("href")
+            listing.logo = "https://cdn4.iconfinder.com/data/icons/flat-icon-social-media/256/Linkedin.png"
+            jobs.append(listing.to_dict())
 
 
 linkedin_jobs(linkedin_url_web)
